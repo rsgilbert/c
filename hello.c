@@ -1,3 +1,7 @@
 #include <stdio.h>
 
-main()
+int main() 
+{
+    printf("hello,");
+    printf(" worl\zy1f ");
+}
