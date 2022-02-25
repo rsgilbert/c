@@ -14,12 +14,12 @@ void main()
     step = 20; /* step size */
 
     fahr = lower;
-    printf("CELSIUS TO FAHRENHEIT CONVERSION");
+    printf("FAHRENHEIT TO CELSIUS CONVERSION\n");
     while(fahr <= upper)
     {
         // integer division truncates
         celsius = (fahr - 32) * (5.0 / 9);
-        printf("%3d%8.1f %c\n", fahr, celsius, 'F');
+        printf("%3d%8.1f %c\n", fahr, celsius, 'C');
         fahr = fahr + step;
     }
 }

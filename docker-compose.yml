@@ -1,0 +1,11 @@
+services:
+  kr:
+    build:
+      dockerfile: ./Dockerfile 
+    restart: always
+    volumes:
+      - ./:/kr 
+    container_name: kr_container
+
+
+    
