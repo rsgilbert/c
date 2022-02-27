@@ -25,8 +25,13 @@ int main()
     printf("End long\n\n");
 
     printf("unsigned int\n");
-    printf("MAX: %ld\n", UINT_MAX); // 4bn
+    printf("MAX: %u\n", UINT_MAX); // 4bn
     printf("End unsigned int\n\n");
+
+    printf("unsigned long\n");
+    printf("MAX: %u\n", ULONG_MAX); // 4bn
+    printf("End unsigned long\n\n");
+
 
     printf("float decimal places\n");
     printf("MIN: %d\n", FLT_MIN_10_EXP);  // -37
