@@ -3,6 +3,11 @@
 void squeeze(char s[], int c);
 void strcat2(char s[], char t[]);
 
+// exercise 2-4
+void squeeze2(char s1[], char s2[]);
+// exercise 2-5
+int any(char s1[], char s2[]);
+
 int main()
 {
     int a = 10;
@@ -44,6 +49,23 @@ void strcat2(char s[], char t[])
     int j = 0;
     while(t[j] != '\0')
         s[i++] = t[j++];
+}
+
+/* squeeze2: function that deletes each character in s1
+    that matches any character in the string s2
+    */
+void squeeze2(char s1[], char s2[])
+{
+
+}
+
+/** Function that returns the first location in the 
+ * string s1 where any character from the string s2 occurs, or 
+ * -1 if s1 contains no character from s2.
+ * Similar to standard library function strpbrk */
+int any(char s1[], char s2[])
+{
+
 }
 
 
