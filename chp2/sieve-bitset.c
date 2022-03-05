@@ -21,10 +21,11 @@ void sieve(int n, int primes[]);
 int dropRightBits(int bitset, int noToDrop);
 void primeBitsetToArray(int bitset, int primes[]);
 void printPrimes(int primes[], size_t size);
+int greaterFirstBit(int bitset);
 
 int main()
 {
-    int n = 7;
+    int n = 30;
     int runner = runningPrimes(n);
     int primes[n];
     sieve(n, primes);
@@ -52,17 +53,26 @@ void sieve(int n, int primes[])
         int r = commonRatio(i);
         int numEls = numElementsInGP(A_1, lastEl, r);
         int sum = gpSum(A_1, r, numEls);
-         printf("non padded sum: ");
-        printBits(sum);
+        //  printf("non padded sum: w %d , r %d , numEls %d ", w, r, numEls);
+        // printBits(sum);
         sum = paddedSum(sum, n, i);  
-        // We first flip `sum` bits because currently 1s in sum represent multiples
+        // We need to flip `sum` bits because currently 1s in sum represent multiples
+        // If we flip 1010 it becomes 101. But notice we also want to remove 1000. 
+        // If we dont handle this, 4 will show up in the primes
+        // So we first get a copy of first bit 
+        int grtrBitset = greaterFirstBit(sum);
         sum = flip(sum);
-        printf("sum: ");
+        sum = grtrBitset | sum;
+
+        // 
+        printf("sum: gr %d ", grtrBitset);
+        printBits(grtrBitset);
+        printf("sum ");
         printBits(sum);
         // Cancel out bits that represent multiples of i
         // We are going to drop some bits. The ones that are multiples of i
         // We first store some values
-        int bitsOnRightToDrop = n - (2 * i) ;
+        int bitsOnRightToDrop = n - (2 * i) + 1;
         int notToChangeBits = dropRightBits(runner, bitsOnRightToDrop);
         int withoutSum = runner & sum;
         // printf("Runner: ");
@@ -220,6 +230,21 @@ void primeBitsetToArray(int bitset, int primes[])
     }
     primes[j] = -1;
 }
+
+/* Return bitset for the first bit in a given bitset.
+* For example bitsetForFirstBit(10) = 8
+*/
+int bitsetForFirstBit(int bitset) {
+    return pow(2, log2(bitset));
+}
+
+/* Return bitset that is greater than given bitset but also a multiple of 2.
+* For example bitsetForFirstBit(10) = 16
+*/
+int greaterFirstBit(int bitset) {
+    return pow(2, (int) log2(bitset) + 1);
+}
+
 
 void printPrimes(int primes[], size_t size)
 {
