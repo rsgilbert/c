@@ -1,33 +1,34 @@
 #include <stdio.h>
 #include <math.h>
+#include <stdint.h>
 
 #define MAXLINE 1000
 #define A_1 1 // first number in GP 
 
 // sieve of eratosthenes
 // Using bit arithmetic
-long btoi(char s[]);
-void itob(long n, char s[]);
-long runningPrimes(long max);
-void printBits(long num);
-long gpSum(long a_1, long r, long n);
-long numElementsInGP(long a_1, long a_n, long r);
-long lastElementInBitset(long width);
-long width(long factor, long n);
-long paddedSum(long sum, long n, long i);
-long commonRatio(long i);
-long flip(long bitset);
-void sieve(long n, long primes[]);
-long dropRightBits(long bitset, long noToDrop);
-void primeBitsetToArray(long bitset, long primes[]);
-void printPrimes(long primes[], size_t size);
-long greaterFirstBit(long bitset);
+uint64_t  btoi(char s[]);
+void itob(uint64_t  n, char s[]);
+uint64_t  runningPrimes(uint64_t  max);
+void printBits(uint64_t  num);
+uint64_t  gpSum(uint64_t  a_1, uint64_t  r, uint64_t  n);
+uint64_t  numElementsInGP(uint64_t  a_1, uint64_t  a_n, uint64_t  r);
+uint64_t  lastElementInBitset(uint64_t  width);
+uint64_t  width(uint64_t  factor, uint64_t  n);
+uint64_t  paddedSum(uint64_t  sum, uint64_t  n, uint64_t  i);
+uint64_t  commonRatio(uint64_t  i);
+uint64_t  flip(uint64_t  bitset);
+void sieve(uint64_t  n, uint64_t  primes[]);
+uint64_t  dropRightBits(uint64_t  bitset, uint64_t  noToDrop);
+void primeBitsetToArray(uint64_t  bitset, uint64_t  primes[]);
+void printPrimes(uint64_t  primes[], size_t size);
+uint64_t  greaterFirstBit(uint64_t  bitset);
 
-long main()
+uint64_t  main()
 {
-    long n = 31; // 32 is not supported (??) I dont know why
-    long runner = runningPrimes(n);
-    long primes[n];
+    uint64_t  n = 53; // 32 is not supported (??) I dont know why
+    uint64_t  runner = runningPrimes(n);
+    uint64_t  primes[n];
     sieve(n, primes);
     printPrimes(primes, n);
 }
@@ -38,20 +39,20 @@ long main()
  * Algorithm for finding all prime numbers upto a given limit.
  * We go through natural numbers starting with 2 removing out multiples of each.
  */
-void sieve(long n, long primes[])
+void sieve(uint64_t  n, uint64_t  primes[])
 {
     // 1. fill in numbers
-    long runner = runningPrimes(n);
-    long start_no = 2;
-    long i = start_no;
+    uint64_t  runner = runningPrimes(n);
+    uint64_t  start_no = 2;
+    uint64_t  i = start_no;
     while(i <= n)
     {
         // printf("%d\n", i);
-        long w = width(i, n);
-        long lastEl = lastElementInBitset(w);
-        long r = commonRatio(i);
-        long numEls = numElementsInGP(A_1, lastEl, r);
-        long sum = gpSum(A_1, r, numEls);
+        uint64_t  w = width(i, n);
+        uint64_t  lastEl = lastElementInBitset(w);
+        uint64_t  r = commonRatio(i);
+        uint64_t  numEls = numElementsInGP(A_1, lastEl, r);
+        uint64_t  sum = gpSum(A_1, r, numEls);
         //  printf("non padded sum: w %d , r %d , numEls %d ", w, r, numEls);
         // printBits(sum);
         sum = paddedSum(sum, n, i);  
@@ -59,7 +60,7 @@ void sieve(long n, long primes[])
         // If we flip 1010 it becomes 101. But notice we also want to remove 1000. 
         // If we dont handle this, 4 will show up in the primes
         // So we first get a copy of first bit 
-        long grtrBitset = greaterFirstBit(sum);
+        uint64_t  grtrBitset = greaterFirstBit(sum);
         sum = flip(sum);
         sum = grtrBitset | sum;
 
@@ -71,9 +72,9 @@ void sieve(long n, long primes[])
         // Cancel out bits that represent multiples of i
         // We are going to drop some bits. The ones that are multiples of i
         // We first store some values
-        long bitsOnRightToDrop = n - (2 * i) + 1;
-        long notToChangeBits = dropRightBits(runner, bitsOnRightToDrop);
-        long withoutSum = runner & sum;
+        uint64_t  bitsOnRightToDrop = n - (2 * i) + 1;
+        uint64_t  notToChangeBits = dropRightBits(runner, bitsOnRightToDrop);
+        uint64_t  withoutSum = runner & sum;
         // printf("Runner: ");
         runner = notToChangeBits | withoutSum;
         // printBits(runner);
@@ -82,12 +83,12 @@ void sieve(long n, long primes[])
     primeBitsetToArray(runner, primes);
 }
 
-long runningPrimes(long max)
+uint64_t  runningPrimes(uint64_t  max)
 {
     return pow(2, max) - 1;
 }
 
-long paddedSum(long sum, long n, long i) {
+uint64_t  paddedSum(uint64_t  sum, uint64_t  n, uint64_t  i) {
     return sum * pow(2, (n % i));
 }
 
@@ -96,13 +97,13 @@ long paddedSum(long sum, long n, long i) {
  * r: common ratio
  * n: number of elements in GP
 */
-long gpSum(long a_1, long r, long n)
+uint64_t  gpSum(uint64_t  a_1, uint64_t  r, uint64_t  n)
 {
     return a_1 * (pow(r, n) - 1) / (r - 1);
 }
 
 /* Compute common ratio to be used for a given number */
-long commonRatio(long i)
+uint64_t  commonRatio(uint64_t  i)
 {
     return pow(2, i);
 }
@@ -112,7 +113,7 @@ long commonRatio(long i)
  * a_n: last element in GP
  * r : common ratio
  */
-long numElementsInGP(long a_1, long a_n, long r)
+uint64_t  numElementsInGP(uint64_t  a_1, uint64_t  a_n, uint64_t  r)
 {
     return log2(a_n / a_1) / log2(r) + 1;
 }
@@ -121,16 +122,16 @@ long numElementsInGP(long a_1, long a_n, long r)
 * For example if bitset is 10010 , last element is 10000 = 16
 * width: Number of characters in bitset.
 */
-long lastElementInBitset(long width)
+uint64_t  lastElementInBitset(uint64_t  width)
 {
     return pow(2, (width - 1));
 }
 
 /* Produces the number of bits from first multiple greater than factor to last multiple less than n. */
-long width(long factor, long n)
+uint64_t  width(uint64_t  factor, uint64_t  n)
 {
-    long firstMultGR = 2 * factor;
-    long lastMultLess = n - (n % factor);
+    uint64_t  firstMultGR = 2 * factor;
+    uint64_t  lastMultLess = n - (n % factor);
     return lastMultLess - firstMultGR + 1;
 }
 
@@ -139,10 +140,10 @@ long width(long factor, long n)
 // -- Bit functions --
 
 /** Convert binary to decimal integer */
-long btoi(char s[])
+uint64_t  btoi(char s[])
 {
-    long result = 0;
-    long i = 0;
+    uint64_t  result = 0;
+    uint64_t  i = 0;
     while (s[i] != 0)
     {
         if (s[i] != '0' && s[i] != '1')
@@ -155,7 +156,7 @@ long btoi(char s[])
 }
 
 /** convert decimal integer to binary */
-void itob(long n, char s[])
+void itob(uint64_t  n, char s[])
 {
     if (n == 0)
     {
@@ -170,7 +171,7 @@ void itob(long n, char s[])
         s[2] = 0;
         return;
     }
-    long pos = log2(n);
+    uint64_t  pos = log2(n);
     s[pos + 1] = 0;
     while (pos != 0)
     {
@@ -185,7 +186,7 @@ void itob(long n, char s[])
 /**
  * Prints binary representation of set
  */
-void printBits(long num)
+void printBits(uint64_t  num)
 {
     char result[MAXLINE];
     itob(num, result);
@@ -193,29 +194,29 @@ void printBits(long num)
 }
 
 // Flip bits. For example 10110 becomes 1001
-long flip(long bitset)
+uint64_t  flip(uint64_t  bitset)
 {
-    long mask = pow(2, (long) log2(bitset) + 1) - 1;
+    uint64_t  mask = pow(2, (long) log2(bitset) + 1) - 1;
     return bitset ^ mask;
 }
 
 // Drop some bits from the right side of a bitset. For example dropRighBits(btoi("1001100110"), 6) produces 1001000000
-long dropRightBits(long bitset, long noToDrop) {
-    long mask = pow(2, noToDrop) - 1; 
-    long rightFlippedBitset = bitset ^ mask;
+uint64_t  dropRightBits(uint64_t  bitset, uint64_t  noToDrop) {
+    uint64_t  mask = pow(2, noToDrop) - 1; 
+    uint64_t  rightFlippedBitset = bitset ^ mask;
     return bitset & rightFlippedBitset;
 }
 
 
 /* Copy bitset representing prime positions into an array of prime numbers */
-void primeBitsetToArray(long bitset, long primes[])
+void primeBitsetToArray(uint64_t  bitset, uint64_t  primes[])
 {
     char temp[MAXLINE];
     itob(bitset, temp);
     // printf("bitset %s\n", temp);
     // in the bitset, the first position represents number 1 then 2 ... etc So our primes will start at index 1 
-    long i = 1;
-    long j = 0;
+    uint64_t  i = 1;
+    uint64_t  j = 0;
     while(temp[i] != 0)
     {   
         if(temp[i] == '1')
@@ -233,21 +234,21 @@ void primeBitsetToArray(long bitset, long primes[])
 /* Return bitset for the first bit in a given bitset.
 * For example bitsetForFirstBit(10) = 8
 */
-long bitsetForFirstBit(long bitset) {
+uint64_t  bitsetForFirstBit(uint64_t  bitset) {
     return pow(2, log2(bitset));
 }
 
 /* Return bitset that is greater than given bitset but also a multiple of 2.
 * For example bitsetForFirstBit(10) = 16
 */
-long greaterFirstBit(long bitset) {
+uint64_t  greaterFirstBit(uint64_t  bitset) {
     return pow(2, (long) log2(bitset) + 1);
 }
 
 
-void printPrimes(long primes[], size_t size)
+void printPrimes(uint64_t  primes[], size_t size)
 {
-    long i = 0;
+    uint64_t  i = 0;
     while(i < size && primes[i] != -1)
     {
         printf("%d, ", primes[i]);
