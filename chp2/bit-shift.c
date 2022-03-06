@@ -3,20 +3,34 @@
 #define MAXLINE 1000
 
 int btoi(char s[]);
-int btoi(int bits[]);
+int btoi2(int bits[]);
 void itob(int n, char s[]);
-void itob(int num, int result[32]);
+void itob2(int num, int result[32]);
 void playground();
 unsigned getbits(unsigned x, int p, int n);
 void printbits(int num);
+int bitcount(int num);
 
 int main()
 {
-    int bits[32];
-    itob(-174, bits);
-    printbits(-174);
-    printf("Bits: %d", btoi(bits));
+    int n = 17;
+    printbits(n);
+    printf("%d\n", bitcount(n));
 
+}
+/** Count the number of 1 bits in num */
+int bitcount(int num)
+{
+    unsigned i = 0;
+    int count = 0;
+    for(; num != 0; num = num >> 1)
+    {
+        if(num & 1)
+        {
+            count++;
+        }
+    }
+    return count;
 }
 
 
@@ -82,7 +96,7 @@ int btoi(char s[])
 }
 
 /** Convert binary to decimal integer */
-int btoi(int bits[32])
+int btoi2(int bits[32])
 { 
     int result = 0;
     int startidx = 31;
@@ -93,8 +107,10 @@ int btoi(int bits[32])
     while(startidx >= 0)
     {
         result += (1 << startidx) * bits[startidx];
+        // printf("result %u", result);
         startidx--;
     }
+    printf("final result %u\n", result);
     return result;
 }
 
@@ -128,7 +144,7 @@ void itob(int n, char s[])
 }
 
 // Get bit representation of a 32-bit integer
-void itob(int num, int result[32])
+void itob2(int num, int result[32])
 {
     int i = 0;
     while(i < 32)
@@ -143,7 +159,7 @@ void itob(int num, int result[32])
 void printbits(int num)
 {
     int bits[32];
-    itob(num, bits);
+    itob2(num, bits);
     int i = 31;
     while(i >= 0)
     {
