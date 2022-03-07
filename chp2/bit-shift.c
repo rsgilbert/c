@@ -9,19 +9,21 @@ void itob2(int num, int result[32]);
 void playground();
 unsigned getbits(unsigned x, int p, int n);
 void printbits(int num);
-int bitcount(int num);
-
+int bitcount(unsigned num);
+int bitcount2(int num);
 int main()
 {
-    int n = 17;
+    int n = 56;
     printbits(n);
-    printf("%d\n", bitcount(n));
+    printf("%d\n", n);
+    printf("%d, using bitcount2 %d \n", bitcount(n), bitcount2(n));
 
 }
-/** Count the number of 1 bits in num */
-int bitcount(int num)
+/** Count the number of 1 bits in num. num can not be negative
+ * because right shifting a negative number still leaves a one at the left end.
+ */
+int bitcount(unsigned num)
 {
-    unsigned i = 0;
     int count = 0;
     for(; num != 0; num = num >> 1)
     {
@@ -33,6 +35,18 @@ int bitcount(int num)
     return count;
 }
 
+/* Use the fact that x & (x-1) produces a value that is x without the rightmost 1-bit.
+* This program is more efficient than the earlier bitcount(int num) because it skips zero bits so less iteration occurs.
+*/
+int bitcount2(int num)
+{
+    int count = 0;
+    for(; num != 0; num = num & (num - 1))
+    {
+        count++;
+    }
+    return count;
+}
 
 /* getbits: get n bits from position p
  * Returns right-adjusted nbit field of x that begins at position p.
