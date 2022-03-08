@@ -17,8 +17,6 @@ void reverse(char s[])
 {
     int i, j;
     char temp;
-    int a = (i = 3, j = 5, i = j + 2);
-    printf("a is %d\n", a);
     for (i = 0, j = strnlen(s, MAXLINE) - 1; i < j; i++, j--)
     {
         // perform exchange
