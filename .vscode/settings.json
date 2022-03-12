@@ -3,6 +3,8 @@
         "limits.h": "c",
         "float.h": "c",
         "climits": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "concepts": "c",
+        "type_traits": "c"
     }
 }
