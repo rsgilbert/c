@@ -5,6 +5,8 @@
         "climits": "c",
         "stdio.h": "c",
         "concepts": "c",
-        "type_traits": "c"
+        "type_traits": "c",
+        "stddef.h": "c",
+        "string.h": "c"
     }
 }
