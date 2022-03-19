@@ -8,6 +8,8 @@
         "type_traits": "c",
         "stddef.h": "c",
         "string.h": "c",
-        "stdarg.h": "c"
+        "stdarg.h": "c",
+        "fcntl.h": "c",
+        "vadefs.h": "c"
     }
 }
